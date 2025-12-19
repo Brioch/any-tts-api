@@ -21,7 +21,7 @@ def speech_api():
     # Extract parameters from the request
     # OpenAI API compatible parameters only
     text = data.get("input")
-    # model = data.get("model", config.MODEL)
+    model = data.get("model", config.MODEL)
     voice = data.get("voice")
     response_format = data.get("response_format", "wav")
 
@@ -47,7 +47,7 @@ def speech_api():
         )
 
     # Generate audio from the text
-    audio_data = tts.generate_audio(text, voice, response_format, 'mira')
+    audio_data = tts.generate_audio(text, voice, response_format, model)
 
     # Create a BytesIO object for the response
     audio_io = io.BytesIO(audio_data)
@@ -74,6 +74,7 @@ def tts_api():
 
     # Extract parameters from the request
     text = data.get("text")
+    model = data.get("model", config.MODEL)
     voice = data.get("predefined_voice_id")
     speed = float(data.get("speed_factor", 1.0))
     seed = data.get("seed", config.SEED)
@@ -106,7 +107,7 @@ def tts_api():
 
     # Generate audio from the text
     audio_data = tts.generate_audio(
-        text, voice, response_format, 'chatterbox', speed, chunk_size, seed
+        text, voice, response_format, model, speed, chunk_size, seed
     )
 
     # Create a BytesIO object for the response
@@ -127,6 +128,13 @@ def tts_api():
 @app.route("/voices", methods=["GET"])
 def get_voices_api():
     return jsonify({"voices": config.SUPPORTED_VOICES})
+
+
+@app.route("/models", methods=["GET"])
+def get_models_api():
+    from engine import index
+
+    return jsonify({"models": list(index.get_available_model_engines().keys())})
 
 
 @app.get("/get_predefined_voices")

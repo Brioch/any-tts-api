@@ -5,7 +5,7 @@ import torch
 # Load environment variables from .env file
 load_dotenv()
 
-VOICES_DIR = os.getenv("VOICES_DIR", './voices')
+VOICES_DIR = os.getenv("VOICES_DIR", "./voices")
 
 # check if path exists
 if not os.path.exists(VOICES_DIR):
@@ -17,6 +17,7 @@ if VOICES_DIR[-1] != "/":
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 API_PORT = os.getenv("API_PORT", "5001")
 API_HOST = os.getenv("API_HOST", "0.0.0.0")
+MODEL = os.getenv("MODEL", "mira")
 SUPPORTED_VOICES = os.getenv("SUPPORTED_VOICES", "").split(",")
 SUPPORTED_RESPONSE_FORMATS = ["mp3", "opus", "aac", "flac", "wav", "pcm"]
 CORS_ALLOWED_ORIGIN = os.getenv("CORS_ALLOWED_ORIGIN", "*")

@@ -1,8 +1,10 @@
 from typing import Optional
 
+
 class TTSEngine:
     def __init__(self):
         raise NotImplementedError("Subclasses must implement this method")
+
     def generate_audio(
         self,
         text: str,

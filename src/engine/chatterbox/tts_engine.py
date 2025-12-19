@@ -4,9 +4,11 @@ import numpy as np
 from typing import Optional
 from engine.tts_engine import TTSEngine
 
+
 class ChatterboxTTSEngine(TTSEngine):
     def __init__(self):
         from chatterbox.tts import ChatterboxTTS
+
         self.model = ChatterboxTTS.from_pretrained(config.DEVICE)
 
     def generate_audio(

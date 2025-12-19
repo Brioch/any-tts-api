@@ -4,10 +4,14 @@ import numpy as np
 from typing import Optional
 from engine.tts_engine import TTSEngine
 
+
 class MiraTTSEngine(TTSEngine):
     def __init__(self):
         from engine.mira.model import MiraTTS
-        self.mira_tts = MiraTTS("YatharthS/MiraTTS")  ## downloads model from huggingface
+
+        self.mira_tts = MiraTTS(
+            "YatharthS/MiraTTS"
+        )  ## downloads model from huggingface
 
     def generate_audio(
         self,

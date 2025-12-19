@@ -75,6 +75,10 @@
                 </select>
             </div>
             <div>
+                <label for="modelSelect">Model</label>
+                <select id="modelSelect"></select>
+            </div>
+            <div>
                 <label for="responseFormatInput">Format</label>
                 <select id="responseFormatInput">
                     <option value="wav">WAV</option>
@@ -118,6 +122,20 @@
                     voiceSelect.appendChild(option);
                 });
             });
+
+            const modelsSelect = document.getElementById('modelSelect');
+            // const languageSelect = document.getElementById('languageSelect');
+
+            fetch(baseUrl+'/models').then(response => response.json()).then(data => {
+                data.models.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model;
+                    option.textContent = model;
+                    modelsSelect.appendChild(option);
+                });
+
+                // languageSelect.toggleAttribute('disabled', modelsSelect.value !== 'Chatterbox-Multilingual');
+            });
         });
 
         document.getElementById('callApi').addEventListener('click', async () => {
@@ -126,6 +144,7 @@
             const speedInput = parseFloat(document.getElementById('speedInput').value);
             const responseFormatInput = document.getElementById('responseFormatInput').value;
             const seedValue = parseInt(document.getElementById('seedInput').value);
+            const modelSelect = document.getElementById('modelSelect').value;
             const responseDiv = document.getElementById('response');
 
             if (!textInput.trim()) {
@@ -145,6 +164,7 @@
                     },
                     body: JSON.stringify({
                         text: textInput,
+                        model: modelSelect,
                         response_format: responseFormatInput,
                         seed: seedValue,
                         speed_factor: speedInput,
