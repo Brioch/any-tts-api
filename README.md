@@ -2,6 +2,8 @@
 
 This repository aims to provide API to generate audio from text using several text to speech models. It is compatible with the OpenAI API format and can be used with any OpenAI compatible client.
 
+Don't expect support for a lot of models in this repository. This is mostly a base to build upon with an easily extensible architecture while still keeping the code simple.
+
 ## Install
 
 ### Using uv
