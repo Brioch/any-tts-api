@@ -1,48 +1,34 @@
-import utils
-import config
-from mira.model import MiraTTS
-import numpy as np
 from typing import Optional
+from engine import index
 
-mira_tts = MiraTTS("YatharthS/MiraTTS")  ## downloads model from huggingface
-
+_cached_tts_model = None
+_current_model_name = None
 
 def generate_audio(
     text: str,
     voice: str,
     output_format: str,
+    model: str,
     speed: float = 1.0,
     chunk_size: int = 250,
     seed: int = 0,
 ) -> Optional[bytes]:
-    if seed != 0:
-        utils.set_seed(seed)  # For reproducibility
+    global _cached_tts_model, _current_model_name
 
-    voice_file = config.VOICES_DIR + f"{voice}.wav"
+    if _current_model_name != model:
+        available_engines = index.get_available_model_engines()
 
-    all_audio_data = []
+        if model in available_engines:
+            print(f"Loading model: {model}")
+            loaded_engine = available_engines[model]()
+        else:
+            raise ValueError(f"Unknown model: {model}")
 
-    chunks = utils.chunk_text_by_sentences(text, chunk_size)
-    sample_rate = 48000
+        _cached_tts_model = loaded_engine
+        _current_model_name = model
+    else:
+        print(f"Using cached model: {model}")
 
-    # split in chunks
-    for chunk in chunks:
-        print(f"Generating audio for chunk: {chunk}")
+    tts_model = _cached_tts_model
 
-        # Generate the waveform
-        context_tokens = mira_tts.encode_audio(voice_file)
-        audio_tensor = mira_tts.generate(chunk, context_tokens)
-
-        # adjust speed
-        tensor_tuple = utils.apply_speed_factor(audio_tensor, sample_rate, speed)
-        audio_tensor = tensor_tuple[0]
-
-        audio_data = audio_tensor.squeeze(0).numpy()
-        audio_data = np.clip(audio_data, -1.0, 1.0)  # Clip to prevent saturation
-        audio_data = (audio_data * 32767).astype(np.int16)
-        all_audio_data.append(audio_data)
-
-    all_audio_data = np.concatenate(all_audio_data)
-    bytes_object = utils.encode_audio(all_audio_data, sample_rate, output_format)
-
-    return bytes_object
+    return tts_model.generate_audio(text, voice, output_format, speed, chunk_size, seed)

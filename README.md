@@ -1,14 +1,6 @@
-# mira-tts-api
-[MiraTTS](https://huggingface.co/YatharthS/MiraTTS) is a finetune of the excellent [Spark-TTS](https://huggingface.co/SparkAudio/Spark-TTS-0.5B) model for enhanced realism and stability performing on par with closed source models. 
-This repository also heavily optimizes Mira with [Lmdeploy](https://github.com/InternLM/lmdeploy) and boosts quality by using [FlashSR](https://github.com/ysharma3501/FlashSR) to generate high quality audio at over **100x** realtime!
+# any-tts-api
 
-This repository adds a simple API to generate audio from text using MiraTTS. It is compatible with the OpenAI API format and can be used with any OpenAI compatible client.
-
-## Key benefits
-- Incredibly fast: Over 100x realtime by using Lmdeploy and batching.
-- High quality: Generates clear and crisp 48khz audio outputs which is much higher quality then most models.
-- Memory efficient: Works within 6gb vram.
-- Low latency: Latency can be low as 100ms.
+This repository aims to provide API to generate audio from text using several text to speech models. It is compatible with the OpenAI API format and can be used with any OpenAI compatible client.
 
 ## Install
 

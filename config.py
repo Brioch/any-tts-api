@@ -5,7 +5,7 @@ import torch
 # Load environment variables from .env file
 load_dotenv()
 
-VOICES_DIR = os.getenv("VOICES_DIR")
+VOICES_DIR = os.getenv("VOICES_DIR", './voices')
 
 # check if path exists
 if not os.path.exists(VOICES_DIR):

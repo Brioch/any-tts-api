@@ -3,7 +3,7 @@ from itertools import cycle
 from ncodec.codec import TTSCodec
 from lmdeploy import pipeline, GenerationConfig, TurbomindEngineConfig
 
-from mira.utils import clear_cache, split_text
+from engine.mira.utils import clear_cache, split_text
 
 
 class MiraTTS:

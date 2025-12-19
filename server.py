@@ -47,7 +47,7 @@ def speech_api():
         )
 
     # Generate audio from the text
-    audio_data = tts.generate_audio(text, voice, response_format)
+    audio_data = tts.generate_audio(text, voice, response_format, 'mira')
 
     # Create a BytesIO object for the response
     audio_io = io.BytesIO(audio_data)
@@ -106,7 +106,7 @@ def tts_api():
 
     # Generate audio from the text
     audio_data = tts.generate_audio(
-        text, voice, response_format, speed, chunk_size, seed
+        text, voice, response_format, 'chatterbox', speed, chunk_size, seed
     )
 
     # Create a BytesIO object for the response
