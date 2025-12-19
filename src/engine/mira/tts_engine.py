@@ -21,6 +21,7 @@ class MiraTTSEngine(TTSEngine):
         speed: float = 1.0,
         chunk_size: int = 250,
         seed: int = 0,
+        params: dict = {},
     ) -> Optional[bytes]:
         if seed != 0:
             utils.set_seed(seed)  # For reproducibility
@@ -31,6 +32,9 @@ class MiraTTSEngine(TTSEngine):
 
         chunks = utils.chunk_text_by_sentences(text, chunk_size)
         sample_rate = 48000
+
+        if "temperature" in params:
+            self.mira_tts.set_params(temperature=params.get("temperature"))
 
         # split in chunks
         for chunk in chunks:

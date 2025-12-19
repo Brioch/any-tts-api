@@ -13,6 +13,7 @@ def generate_audio(
     speed: float = 1.0,
     chunk_size: int = 250,
     seed: int = 0,
+    params: dict = {},
 ) -> Optional[bytes]:
     global _cached_tts_model, _current_model_name
 
@@ -32,4 +33,4 @@ def generate_audio(
 
     tts_model = _cached_tts_model
 
-    return tts_model.generate_audio(text, voice, output_format, speed, chunk_size, seed)
+    return tts_model.generate_audio(text, voice, output_format, speed, chunk_size, seed, params)

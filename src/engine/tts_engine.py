@@ -13,5 +13,6 @@ class TTSEngine:
         speed: float = 1.0,
         chunk_size: int = 250,
         seed: int = 0,
+        params: dict = {},
     ) -> Optional[bytes]:
         raise NotImplementedError("Subclasses must implement this method")

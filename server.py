@@ -79,6 +79,10 @@ def tts_api():
     speed = float(data.get("speed_factor", 1.0))
     seed = data.get("seed", config.SEED)
     response_format = data.get("response_format", "wav")
+    params = {}
+
+    if "temperature" in data and data.get("temperature") is not None:
+        params["temperature"] = data.get("temperature")
 
     print(f"Got request: {data}")
     chunk_size = data.get("chunk_size", 250)
@@ -107,7 +111,7 @@ def tts_api():
 
     # Generate audio from the text
     audio_data = tts.generate_audio(
-        text, voice, response_format, model, speed, chunk_size, seed
+        text, voice, response_format, model, speed, chunk_size, seed, params
     )
 
     # Create a BytesIO object for the response

@@ -19,6 +19,7 @@ class ChatterboxTTSEngine(TTSEngine):
         speed: float = 1.0,
         chunk_size: int = 250,
         seed: int = 0,
+        params: dict = {},
     ) -> Optional[bytes]:
         if seed != 0:
             utils.set_seed(seed)  # For reproducibility
@@ -38,9 +39,9 @@ class ChatterboxTTSEngine(TTSEngine):
             audio_tensor = self.model.generate(
                 chunk,
                 audio_prompt_path=voice_file,
-                # exaggeration=exaggeration,
-                # temperature=temperature,
-                # cfg_weight=cfg_weight,
+                # exaggeration=params.get("exaggeration", None),
+                temperature=params.get("temperature", 0.8),
+                # cfg_weight=params.get("cfg_weight", None),
                 # **(
                 #     {"language_id": language_id}
                 #     if model_name == "Chatterbox-Multilingual"
